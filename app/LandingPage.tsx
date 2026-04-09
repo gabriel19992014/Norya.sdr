@@ -1,16 +1,58 @@
-import About from "./components/About";
-import Benefits from "./components/Benefits";
-import Challenges from "./components/Challenges";
-import Clients from "./components/Clients";
-import Contact from "./components/Contact";
-import Deliverables from "./components/Deliverables";
-import Footer from "./components/Footer";
-import Hero from "./components/Hero";
-import Methodology from "./components/Methodology";
+import dynamic from "next/dynamic";
+
+// Imports estáticos (acima da dobra)
 import Navbar from "./components/Navbar";
-import Process from "./components/Process";
-import Solutions from "./components/Solutions";
+import Hero from "./components/Hero";
+import Clients from "./components/Clients";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import { SectionSkeleton } from "./components/Skeleton";
+
+// Lazy load components não-críticos
+const Challenges = dynamic(() => import("./components/Challenges"), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+});
+
+const Solutions = dynamic(() => import("./components/Solutions"), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+});
+
+const Process = dynamic(() => import("./components/Process"), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+});
+
+const Deliverables = dynamic(() => import("./components/Deliverables"), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+});
+
+const Benefits = dynamic(() => import("./components/Benefits"), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+});
+
+const About = dynamic(() => import("./components/About"), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+});
+
+const Methodology = dynamic(() => import("./components/Methodology"), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+});
+
+const Contact = dynamic(() => import("./components/Contact"), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+});
+
+const Footer = dynamic(() => import("./components/Footer"), {
+  loading: () => <div className="h-40 bg-norya-ink animate-pulse" />,
+  ssr: true,
+});
+
 import {
   contentByLocale,
   getNavItems,
@@ -61,7 +103,7 @@ export default function LandingPage({ locale }: LandingPageProps) {
         whatsappUrl={whatsappUrlBySource.hero}
       />
       <Clients title={content.clients.title} subtitle={content.clients.subtitle} items={content.clients.items} />
-      <Challenges title={content.challenges.title} items={content.challenges.items} />
+      <Challenges title={content.challenges.title} challengeLabel={content.challenges.challengeLabel} items={content.challenges.items} />
       <Solutions
         title={content.solutions.title}
         subtitle={content.solutions.subtitle}
@@ -78,6 +120,7 @@ export default function LandingPage({ locale }: LandingPageProps) {
         title={content.about.title}
         description={content.about.description}
         highlights={content.about.highlights}
+        highlightDescriptions={content.about.highlightDescriptions}
       />
       <Methodology
         title={content.methodology.title}

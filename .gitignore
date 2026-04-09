@@ -33,3 +33,8 @@ coverage/
 
 # deployment
 .vercel/
+
+# relatórios gerados por IA (não fazem parte do projeto)
+OPTIMIZATION_EXAMPLES.md
+OPTIMIZATION_REPORT.md
+REFACTORING_REPORT.md

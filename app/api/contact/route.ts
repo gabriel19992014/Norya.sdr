@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { VALIDATION } from "@/app/lib/constants";
+import { getValidatedEnv } from "@/app/lib/env";
+import { validateEmail, escapeHtml } from "@/app/lib/validation";
+import { checkRateLimit, RATE_LIMITS } from "@/app/lib/rateLimit";
 
 type ContactPayload = {
   name: string;
@@ -9,19 +13,23 @@ type ContactPayload = {
   renderedAt?: number;
 };
 
-const requestHistory = new Map<string, number[]>();
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const RATE_LIMIT_MAX_REQUESTS = 5;
-const NAME_MAX_LENGTH = 80;
-const EMAIL_MAX_LENGTH = 160;
-const MESSAGE_MAX_LENGTH = 2000;
-const MIN_RENDERED_DELAY_MS = 1500;
+const RATE_LIMIT_WINDOW_MS = VALIDATION.RATE_LIMIT_WINDOW_MS;
+const RATE_LIMIT_MAX_REQUESTS = VALIDATION.RATE_LIMIT_MAX_REQUESTS;
+const NAME_MAX_LENGTH = VALIDATION.NAME_MAX_LENGTH;
+const EMAIL_MAX_LENGTH = VALIDATION.EMAIL_MAX_LENGTH;
+const MESSAGE_MAX_LENGTH = VALIDATION.MESSAGE_MAX_LENGTH;
+const MIN_RENDERED_DELAY_MS = VALIDATION.MIN_RENDERED_DELAY_MS;
+
+// Removido: requestHistory (agora em rateLimit.ts)
+
 const JSON_HEADERS = {
   "Cache-Control": "no-store"
 };
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL;
-const CONTACT_FROM_EMAIL = process.env.CONTACT_FROM_EMAIL || "NORYA <onboarding@resend.dev>";
+
+const env = getValidatedEnv();
+const RESEND_API_KEY = env.RESEND_API_KEY;
+const CONTACT_TO_EMAIL = env.CONTACT_TO_EMAIL;
+const CONTACT_FROM_EMAIL = env.CONTACT_FROM_EMAIL || "NORYA <onboarding@resend.dev>";
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 function json(body: Record<string, string | boolean>, status: number) {
@@ -35,37 +43,6 @@ function getIp(request: Request) {
   }
 
   return request.headers.get("x-real-ip") || "unknown";
-}
-
-function isRateLimited(ip: string) {
-  const now = Date.now();
-  const existing = requestHistory.get(ip) || [];
-  const recent = existing.filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS);
-  recent.push(now);
-  requestHistory.set(ip, recent);
-
-  for (const [key, timestamps] of requestHistory.entries()) {
-    if (timestamps.some((timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS)) {
-      continue;
-    }
-
-    requestHistory.delete(key);
-  }
-
-  return recent.length > RATE_LIMIT_MAX_REQUESTS;
-}
-
-function isValidEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\"/g, "&quot;")
-    .replace(/'/g, "&#039;");
 }
 
 async function sendContactLeadEmail(payload: { name: string; email: string; message: string }) {
@@ -97,8 +74,18 @@ async function sendContactLeadEmail(payload: { name: string; email: string; mess
 export async function POST(request: Request) {
   try {
     const ip = getIp(request);
-    if (isRateLimited(ip)) {
-      return json({ error: "rate_limited" }, 429);
+    const rateLimitResult = checkRateLimit(ip, RATE_LIMITS.contact);
+
+    if (!rateLimitResult.allowed) {
+      return NextResponse.json(
+        { error: "rate_limited" },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(rateLimitResult.retryAfter || 60),
+          },
+        }
+      );
     }
 
     const contentType = request.headers.get("content-type") || "";
@@ -133,7 +120,7 @@ export async function POST(request: Request) {
       !email ||
       !message ||
       !Number.isFinite(renderedAt) ||
-      !isValidEmail(email) ||
+      !validateEmail(email) ||
       isInvalidSize
     ) {
       return json({ error: "invalid_payload" }, 400);

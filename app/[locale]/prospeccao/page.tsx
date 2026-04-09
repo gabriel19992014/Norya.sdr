@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type ProspeccaoPageProps = {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 };
 
 const siteUrl = "https://www.noryapartners.com";
@@ -52,8 +52,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function ProspeccaoPage({ params }: ProspeccaoPageProps) {
-  if (params.locale !== "pt") {
+export default async function ProspeccaoPage({ params }: ProspeccaoPageProps) {
+  const { locale } = await params;
+  if (locale !== "pt") {
     notFound();
   }
 

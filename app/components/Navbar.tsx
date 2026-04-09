@@ -145,7 +145,7 @@ export default function Navbar({
                 activeSection === item.href ? "text-norya-ink" : "text-norya-slate hover:text-norya-ink"
               }`}
               onClick={() => setActiveSection(item.href)}
-              aria-current={activeSection === item.href ? "true" : undefined}
+              aria-current={activeSection === item.href ? "page" : undefined}
             >
               {item.label}
             </a>
@@ -226,7 +226,7 @@ export default function Navbar({
                     ? "bg-norya-mist text-norya-ink"
                     : "text-norya-slate hover:bg-norya-mist hover:text-norya-ink"
                 }`}
-                aria-current={activeSection === item.href ? "true" : undefined}
+                aria-current={activeSection === item.href ? "page" : undefined}
               >
                 {item.label}
               </a>

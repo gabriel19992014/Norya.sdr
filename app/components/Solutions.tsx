@@ -76,7 +76,7 @@ export default function Solutions({
                 alt={item.title}
                 fill
                 sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 360px"
-                quality={72}
+                quality={75}
                 className="object-cover"
               />
             </div>

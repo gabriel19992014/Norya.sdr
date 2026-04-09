@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type ServicosPageProps = {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 };
 
 const siteUrl = "https://www.noryapartners.com";
@@ -65,8 +65,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function ServicosPage({ params }: ServicosPageProps) {
-  if (params.locale !== "pt") {
+export default async function ServicosPage({ params }: ServicosPageProps) {
+  const { locale } = await params;
+  if (locale !== "pt") {
     notFound();
   }
 

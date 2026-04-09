@@ -4,7 +4,7 @@ Landing page institucional da NORYA com foco em geracao de oportunidades B2B, su
 
 ## Stack
 
-- Next.js 14 (App Router)
+- Next.js 15 (App Router)
 - React 18
 - TypeScript
 - Tailwind CSS

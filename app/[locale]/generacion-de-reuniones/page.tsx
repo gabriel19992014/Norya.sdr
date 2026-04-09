@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type GeneracionReunionesPageProps = {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 };
 
 const siteUrl = "https://www.noryapartners.com";
@@ -52,8 +52,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function GeneracionDeReunionesPage({ params }: GeneracionReunionesPageProps) {
-  if (params.locale !== "es") {
+export default async function GeneracionReunionesPage({ params }: GeneracionReunionesPageProps) {
+  const { locale } = await params;
+  if (locale !== "es") {
     notFound();
   }
 

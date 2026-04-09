@@ -90,17 +90,24 @@ export default function Contact({
         body: JSON.stringify(payload)
       });
 
-      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      let data: { error?: string } | null = null;
+      try {
+        data = (await response.json()) as { error?: string } | null;
+      } catch {
+        // JSON parse falhou, continuar com data = null
+      }
 
       if (!response.ok) {
-        setFeedbackMessage(getErrorMessage(data?.error));
-        throw new Error(data?.error || "send-error");
+        const errorMessage_ = data?.error || "send-error";
+        setFeedbackMessage(getErrorMessage(errorMessage_));
+        throw new Error(errorMessage_);
       }
 
       form.reset();
       setStatus("success");
       setFeedbackMessage(successMessage);
-    } catch {
+    } catch (error: unknown) {
+      console.error("Contact form error:", error);
       setStatus("error");
       setFeedbackMessage((currentMessage) => currentMessage || errorMessage);
     } finally {

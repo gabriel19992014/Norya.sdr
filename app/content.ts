@@ -14,9 +14,11 @@ export type LandingContent = {
     title: string;
     description: string;
     highlights: string[];
+    highlightDescriptions: string[];
   };
   challenges: {
     title: string;
+    challengeLabel: string;
     items: Array<{ icon: string; title: string; text: string }>;
   };
   solutions: {
@@ -78,10 +80,16 @@ export const contentByLocale: Record<Locale, LandingContent> = {
       title: "Sobre a NORYA",
       description:
         "A NORYA se dedica à prospecção estratégica B2B, oferecendo expertise e recursos para resultados significativos.",
-      highlights: ["Growth", "Strategy", "Operations"]
+      highlights: ["Growth", "Strategy", "Operations"],
+      highlightDescriptions: [
+        "Estrutura comercial orientada a metas claras e priorização correta.",
+        "Mensagens, ICP e abordagem alinhados ao seu ciclo de venda.",
+        "Operação contínua para transformar planejamento em pipeline."
+      ]
     },
     challenges: {
       title: "Desafios do Mercado",
+      challengeLabel: "Desafio",
       items: [
         {
           icon: "⏳",
@@ -221,10 +229,16 @@ export const contentByLocale: Record<Locale, LandingContent> = {
       title: "Sobre NORYA",
       description:
         "NORYA se enfoca en la prospeccion estrategica B2B, entregando expertise y recursos para resultados significativos.",
-      highlights: ["Growth", "Strategy", "Operations"]
+      highlights: ["Growth", "Strategy", "Operations"],
+      highlightDescriptions: [
+        "Estructura comercial orientada a metas claras y priorizacion correcta.",
+        "Mensajes, ICP y abordaje alineados a tu ciclo de venta.",
+        "Operacion continua para transformar planificacion en pipeline."
+      ]
     },
     challenges: {
       title: "Desafios del Mercado",
+      challengeLabel: "Desafio",
       items: [
         {
           icon: "⏳",

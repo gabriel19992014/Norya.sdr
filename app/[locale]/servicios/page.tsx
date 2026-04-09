@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 type ServiciosPageProps = {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 };
 
 const siteUrl = "https://www.noryapartners.com";
@@ -65,8 +65,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function ServiciosPage({ params }: ServiciosPageProps) {
-  if (params.locale !== "es") {
+export default async function ServiciosPage({ params }: ServiciosPageProps) {
+  const { locale } = await params;
+  if (locale !== "es") {
     notFound();
   }
 

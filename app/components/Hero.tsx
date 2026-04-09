@@ -25,7 +25,7 @@ export default function Hero({
           alt={imageAlt}
           fill
           priority
-          quality={70}
+          quality={75}
           sizes="(max-width: 768px) 100vw, 1200px"
           className="object-cover opacity-25"
         />

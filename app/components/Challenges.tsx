@@ -7,10 +7,11 @@ type ChallengeItem = {
 
 type ChallengesProps = {
   title: string;
+  challengeLabel: string;
   items: ChallengeItem[];
 };
 
-export default function Challenges({ title, items }: ChallengesProps) {
+export default function Challenges({ title, challengeLabel, items }: ChallengesProps) {
   const challengeImageByIndex = ["/img/desafio/tempo.webp", "/img/desafio/decisores.webp", "/img/desafio/estrutura.webp"];
 
   return (
@@ -24,12 +25,12 @@ export default function Challenges({ title, items }: ChallengesProps) {
                 src={challengeImageByIndex[index] ?? "/img/desafio/tempo.webp"}
                 alt={item.title}
                 fill
-                quality={70}
+                quality={75}
                 className="object-cover"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 360px"
               />
             </div>
-            <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-norya-slate">Desafio 0{index + 1}</p>
+            <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-norya-slate">{challengeLabel} 0{index + 1}</p>
             <h3 className="mt-2 font-display text-xl font-semibold text-norya-ink">{item.title}</h3>
             <p className="mt-2 text-sm text-norya-slate">{item.text}</p>
           </article>

@@ -4,27 +4,32 @@ import LandingPage from "../LandingPage";
 import { getSiteMetadata, isValidLocale, type Locale } from "../site";
 
 type LocalePageProps = {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
+  searchParams?: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 };
 
 export function generateStaticParams() {
   return [{ locale: "pt" }, { locale: "es" }];
 }
 
-export function generateMetadata({ params }: LocalePageProps) {
-  if (!isValidLocale(params.locale)) {
+export async function generateMetadata({ params }: LocalePageProps) {
+  const { locale } = await params;
+  if (!isValidLocale(locale)) {
     notFound();
   }
 
-  return getSiteMetadata(params.locale);
+  return getSiteMetadata(locale);
 }
 
-export default function LocalePage({ params }: LocalePageProps) {
-  if (!isValidLocale(params.locale)) {
+export default async function LocalePage({ params }: LocalePageProps) {
+  const { locale } = await params;
+  if (!isValidLocale(locale)) {
     notFound();
   }
 
-  return <LandingPage locale={params.locale as Locale} />;
+  return <LandingPage locale={locale as Locale} />;
 }
