@@ -1,0 +1,35 @@
+# dependencies
+node_modules/
+
+# build outputs
+.next/
+out/
+dist/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment files
+.env
+.env.local
+.env.*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# editor and OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# test and coverage
+coverage/
+
+# deployment
+.vercel/

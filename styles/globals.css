@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 96px;
+}
+
+body {
+  color: #071722;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(10, 122, 140, 0.18), transparent 40%),
+    radial-gradient(circle at 92% 18%, rgba(246, 179, 93, 0.2), transparent 34%),
+    #f3f8f9;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(10, 122, 140, 0.2);
+  color: #071722;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #0a7a8c;
+  outline-offset: 2px;
+}
+
+.section-shell {
+  @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+}
+
+.section-title {
+  @apply font-display text-3xl font-semibold leading-tight text-norya-ink sm:text-4xl;
+}
+
+.section-subtitle {
+  @apply mt-3 max-w-3xl text-base text-norya-slate sm:text-lg;
+}
+
+.card {
+  @apply rounded-2xl border border-norya-ink/10 bg-white/90 p-6 shadow-soft backdrop-blur-sm transition hover:-translate-y-0.5;
+}
+
+.glass-panel {
+  @apply rounded-3xl border border-white/40 bg-white/20 backdrop-blur-xl;
+}
+
+.media-zoom img {
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.media-zoom:hover img {
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-zoom img {
+    transition: none;
+    transform: none;
+  }
+}
