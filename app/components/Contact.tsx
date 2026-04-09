@@ -34,32 +34,15 @@ export default function Contact({
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [feedbackMessage, setFeedbackMessage] = useState("");
-  const [renderedAt] = useState(() => Date.now());
   const formAriaLabel = locale === "pt" ? "Formulario de contato" : "Formulario de contacto";
 
+  const formspreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
+
   function getErrorMessage(errorCode?: string) {
-    if (errorCode === "email_not_configured") {
-      return locale === "pt"
-        ? "Servico de e-mail ainda nao configurado. Tente novamente em instantes."
-        : "El servicio de correo aun no esta configurado. Intentalo de nuevo en unos instantes.";
-    }
-
-    if (errorCode === "email_provider_error") {
-      return locale === "pt"
-        ? "Falha no envio de e-mail. Tente novamente em alguns minutos."
-        : "Fallo al enviar el correo. Intentalo de nuevo en unos minutos.";
-    }
-
     if (errorCode === "rate_limited") {
       return locale === "pt"
         ? "Limite de tentativas atingido. Aguarde alguns minutos e tente novamente."
         : "Se alcanzo el limite de intentos. Espera unos minutos e intentalo nuevamente.";
-    }
-
-    if (errorCode === "invalid_payload") {
-      return locale === "pt"
-        ? "Revise os campos obrigatorios e tente novamente."
-        : "Revisa los campos obligatorios e intentalo nuevamente.";
     }
 
     return errorMessage;
@@ -67,6 +50,17 @@ export default function Contact({
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!formspreeId) {
+      setStatus("error");
+      setFeedbackMessage(
+        locale === "pt"
+          ? "Formulario nao configurado. Tente o WhatsApp."
+          : "Formulario no configurado. Intenta por WhatsApp."
+      );
+      return;
+    }
+
     setLoading(true);
     setStatus("idle");
     setFeedbackMessage("");
@@ -77,30 +71,30 @@ export default function Contact({
       name: String(formData.get("name") || "").trim(),
       email: String(formData.get("email") || "").trim(),
       message: String(formData.get("message") || "").trim(),
-      companyWebsite: String(formData.get("companyWebsite") || "").trim(),
-      renderedAt
+      _gotcha: String(formData.get("_gotcha") || "").trim()
     };
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Accept: "application/json"
         },
         body: JSON.stringify(payload)
       });
 
-      let data: { error?: string } | null = null;
+      let data: { ok?: boolean; errors?: Array<{ message: string }> } | null = null;
       try {
-        data = (await response.json()) as { error?: string } | null;
+        data = (await response.json()) as { ok?: boolean; errors?: Array<{ message: string }> } | null;
       } catch {
-        // JSON parse falhou, continuar com data = null
+        // JSON parse falhou
       }
 
       if (!response.ok) {
-        const errorMessage_ = data?.error || "send-error";
-        setFeedbackMessage(getErrorMessage(errorMessage_));
-        throw new Error(errorMessage_);
+        const code = response.status === 429 ? "rate_limited" : undefined;
+        setFeedbackMessage(getErrorMessage(code));
+        throw new Error(data?.errors?.[0]?.message || "send-error");
       }
 
       form.reset();
@@ -109,7 +103,7 @@ export default function Contact({
     } catch (error: unknown) {
       console.error("Contact form error:", error);
       setStatus("error");
-      setFeedbackMessage((currentMessage) => currentMessage || errorMessage);
+      setFeedbackMessage((current) => current || errorMessage);
     } finally {
       setLoading(false);
     }
@@ -195,7 +189,7 @@ export default function Contact({
           </label>
 
           <input
-            name="companyWebsite"
+            name="_gotcha"
             type="text"
             tabIndex={-1}
             autoComplete="off"
