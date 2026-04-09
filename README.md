@@ -63,6 +63,23 @@ npm run dev
 
 A aplicacao sera iniciada em `http://localhost:3000`.
 
+## Configuracao de e-mail com Resend
+
+Crie um arquivo `.env.local` na raiz do projeto com:
+
+```bash
+RESEND_API_KEY=re_xxxxxxxxx
+CONTACT_TO_EMAIL=seu-email@dominio.com
+CONTACT_FROM_EMAIL=NORYA <contato@seu-dominio.com>
+```
+
+Observacoes:
+
+- `RESEND_API_KEY`: chave da sua conta Resend.
+- `CONTACT_TO_EMAIL`: e-mail que vai receber os leads do formulario.
+- `CONTACT_FROM_EMAIL`: remetente do envio (deve ser um dominio verificado no Resend em producao).
+- Em ambiente de teste no Resend, voce pode usar `NORYA <onboarding@resend.dev>` como remetente.
+
 ## Scripts disponiveis
 
 ```bash

@@ -38,6 +38,18 @@ export default function Contact({
   const formAriaLabel = locale === "pt" ? "Formulario de contato" : "Formulario de contacto";
 
   function getErrorMessage(errorCode?: string) {
+    if (errorCode === "email_not_configured") {
+      return locale === "pt"
+        ? "Servico de e-mail ainda nao configurado. Tente novamente em instantes."
+        : "El servicio de correo aun no esta configurado. Intentalo de nuevo en unos instantes.";
+    }
+
+    if (errorCode === "email_provider_error") {
+      return locale === "pt"
+        ? "Falha no envio de e-mail. Tente novamente em alguns minutos."
+        : "Fallo al enviar el correo. Intentalo de nuevo en unos minutos.";
+    }
+
     if (errorCode === "rate_limited") {
       return locale === "pt"
         ? "Limite de tentativas atingido. Aguarde alguns minutos e tente novamente."
@@ -59,7 +71,8 @@ export default function Contact({
     setStatus("idle");
     setFeedbackMessage("");
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const payload = {
       name: String(formData.get("name") || "").trim(),
       email: String(formData.get("email") || "").trim(),
@@ -84,7 +97,7 @@ export default function Contact({
         throw new Error(data?.error || "send-error");
       }
 
-      event.currentTarget.reset();
+      form.reset();
       setStatus("success");
       setFeedbackMessage(successMessage);
     } catch {
