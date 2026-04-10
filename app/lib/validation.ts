@@ -10,6 +10,11 @@ export function validateEmail(email: string): boolean {
   if (email.startsWith(".") || email.endsWith(".")) return false;
   if (email.includes("..")) return false;
   if (email.startsWith("@") || email.endsWith("@")) return false;
+
+  const [localPart = "", domainPart = ""] = email.split("@");
+  if (!localPart || !domainPart) return false;
+  if (localPart.startsWith(".") || localPart.endsWith(".")) return false;
+  if (domainPart.startsWith(".") || domainPart.endsWith(".")) return false;
   
   return emailRegex.test(email);
 }

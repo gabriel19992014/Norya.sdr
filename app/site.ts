@@ -106,17 +106,15 @@ export function getWhatsappUrls(locale: Locale) {
       ? "Ola! Quero entender como a NORYA pode apoiar nossa geracao de oportunidades B2B."
       : "Hola! Quiero entender como NORYA puede apoyar nuestra generacion de oportunidades B2B.";
 
-  function withSource(_source: string) {
-    return buildWhatsAppUrl(baseMessage);
-  }
+  const whatsappUrl = buildWhatsAppUrl(baseMessage);
 
   return {
-    navbar: withSource("navbar"),
-    hero: withSource("hero"),
-    solutions: withSource(locale === "pt" ? "solucoes" : "soluciones"),
-    contact: withSource("contact"),
-    footer: withSource("footer"),
-    floating: withSource("floating-button")
+    navbar: whatsappUrl,
+    hero: whatsappUrl,
+    solutions: whatsappUrl,
+    contact: whatsappUrl,
+    footer: whatsappUrl,
+    floating: whatsappUrl
   };
 }
 

@@ -89,8 +89,20 @@ npm run build       # build de producao
 npm run build:clean # limpa .next e gera build
 npm run start       # sobe build de producao
 npm run lint        # lint com Next.js
+npm test            # executa testes unitarios (Vitest)
+npm run test:watch  # testes em modo watch
 npm run clean       # remove .next
 ```
+
+## CI para GitHub
+
+O projeto possui workflow em `.github/workflows/ci.yml` que executa automaticamente:
+
+- lint
+- testes
+- build
+
+em push para `main` e em pull requests.
 
 ## Solucao para erro de cache/chunks no Next
 
