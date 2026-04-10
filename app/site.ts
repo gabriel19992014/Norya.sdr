@@ -106,8 +106,8 @@ export function getWhatsappUrls(locale: Locale) {
       ? "Ola! Quero entender como a NORYA pode apoiar nossa geracao de oportunidades B2B."
       : "Hola! Quiero entender como NORYA puede apoyar nuestra generacion de oportunidades B2B.";
 
-  function withSource(source: string) {
-    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`${baseMessage} Origem: ${source}`)}`;
+  function withSource(_source: string) {
+    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(baseMessage)}`;
   }
 
   return {
