@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { COMPANY } from "../lib/company";
 
 type ContactProps = {
   title: string;
@@ -124,10 +125,10 @@ export default function Contact({
 
           <div className="mt-8 space-y-3 text-sm">
             <p>
-              <span className="font-semibold">Email:</span> gabriella@noryapartners.com
+              <span className="font-semibold">Email:</span> {COMPANY.email}
             </p>
             <p>
-              <span className="font-semibold">Telefone:</span> +54 9 341 752-5939
+              <span className="font-semibold">Telefone:</span> {COMPANY.phoneDisplay}
             </p>
             <a
               href={whatsappUrl}

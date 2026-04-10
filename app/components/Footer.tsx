@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { COMPANY, COMPANY_LINKS } from "../lib/company";
 
 type FooterItem = {
   href: string;
@@ -73,13 +74,13 @@ export default function Footer({ locale, whatsappUrl, items }: FooterProps) {
           <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-norya-tide">Contato</p>
           <ul className="mt-3 space-y-2.5 text-sm text-norya-slate">
             <li>
-              <a className="transition hover:text-norya-ink" href="mailto:gabriella@noryapartners.com">
-                gabriella@noryapartners.com
+              <a className="transition hover:text-norya-ink" href={COMPANY_LINKS.mailto}>
+                {COMPANY.email}
               </a>
             </li>
             <li>
-              <a className="transition hover:text-norya-ink" href="tel:+5493417525939">
-                +54 9 341 752-5939
+              <a className="transition hover:text-norya-ink" href={COMPANY_LINKS.tel}>
+                {COMPANY.phoneDisplay}
               </a>
             </li>
             <li>

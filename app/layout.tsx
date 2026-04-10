@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Sora } from "next/font/google";
+import { COMPANY } from "./lib/company";
 import "../styles/globals.css";
 
 const manrope = Manrope({
@@ -16,7 +17,7 @@ const sora = Sora({
 
 export const metadata: Metadata = {
   applicationName: "NORYA Partners",
-  metadataBase: new URL("https://www.noryapartners.com"),
+  metadataBase: new URL(COMPANY.siteUrl),
   icons: {
     icon: "/img/logo.svg",
     shortcut: "/img/logo.svg",

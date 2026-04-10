@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { COMPANY, buildWhatsAppUrl } from "./lib/company";
 
 import { contentByLocale, type Locale } from "./content";
 
-const siteUrl = "https://www.noryapartners.com";
-const whatsappNumber = "5493417525939";
+const siteUrl = COMPANY.siteUrl;
 
 const localePathByLocale: Record<Locale, string> = {
   pt: "/pt",
@@ -107,7 +107,7 @@ export function getWhatsappUrls(locale: Locale) {
       : "Hola! Quiero entender como NORYA puede apoyar nuestra generacion de oportunidades B2B.";
 
   function withSource(_source: string) {
-    return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(baseMessage)}`;
+    return buildWhatsAppUrl(baseMessage);
   }
 
   return {
@@ -128,8 +128,8 @@ export function getOrganizationLdJson() {
     url: siteUrl,
     contactPoint: {
       "@type": "ContactPoint",
-      email: "gabriella@noryapartners.com",
-      telephone: "+54 9 341 752-5939",
+      email: COMPANY.email,
+      telephone: COMPANY.phoneDisplay,
       contactType: "sales"
     }
   };
@@ -158,8 +158,8 @@ export function getServiceLdJson(locale: Locale) {
     inLanguage: locale === "pt" ? "pt-BR" : "es-AR",
     areaServed: "LATAM",
     serviceType: locale === "pt" ? "BPO comercial e geração de oportunidades B2B" : "BPO comercial y generacion de oportunidades B2B",
-    email: "gabriella@noryapartners.com",
-    telephone: "+54 9 341 752-5939"
+    email: COMPANY.email,
+    telephone: COMPANY.phoneDisplay
   };
 }
 

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
+import { COMPANY } from "./lib/company";
 
-const siteUrl = "https://www.noryapartners.com";
+const siteUrl = COMPANY.siteUrl;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [

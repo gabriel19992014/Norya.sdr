@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { COMPANY } from "../../lib/company";
 
 type ServiciosPageProps = {
   params: Promise<{
@@ -8,7 +9,7 @@ type ServiciosPageProps = {
   }>;
 };
 
-const siteUrl = "https://www.noryapartners.com";
+const siteUrl = COMPANY.siteUrl;
 const canonicalPath = "/es/servicios";
 
 const faqItems = [
