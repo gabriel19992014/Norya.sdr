@@ -12,10 +12,10 @@ type FooterProps = {
 };
 
 export default function Footer({ locale, whatsappUrl, items }: FooterProps) {
-  const title = locale === "pt" ? "Apoio comercial B2B com consistencia" : "Apoyo comercial B2B con consistencia";
+  const title = locale === "pt" ? "Apoio comercial B2B com consistência" : "Apoyo comercial B2B con consistencia";
   const description =
     locale === "pt"
-      ? "Estrategia, prospeccao e qualificacao para transformar previsibilidade em crescimento."
+      ? "Estratégia, prospecção e qualificação para transformar previsibilidade em crescimento."
       : "Estrategia, prospeccion y calificacion para transformar previsibilidad en crecimiento.";
 
   return (

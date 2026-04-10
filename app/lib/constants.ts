@@ -1,28 +1,4 @@
 /**
- * Constantes de cores e estilos do projeto
- */
-export const COLORS = {
-  whatsapp: {
-    main: "#25D366",
-    dark: "#128C7E",
-  },
-  norya: {
-    ink: "#071722",
-    slate: "#475569",
-    mist: "#f1f5f9",
-    tide: "#0891b2",
-  },
-} as const;
-
-/**
- * Configurações de animação
- */
-export const ANIMATIONS = {
-  INTERSECTION_OBSERVER_MARGIN: "-28% 0px -52% 0px",
-  INTERSECTION_OBSERVER_THRESHOLD: [0.25, 0.45, 0.65],
-} as const;
-
-/**
  * Rate limiting e validação
  */
 export const VALIDATION = {
@@ -34,12 +10,3 @@ export const VALIDATION = {
   MIN_RENDERED_DELAY_MS: 1500,
 } as const;
 
-/**
- * Labels por locale
- */
-export const LOCALE_LABELS = {
-  pt: "PT",
-  es: "ES",
-} as const;
-
-export type Locale = keyof typeof LOCALE_LABELS;

@@ -48,6 +48,11 @@ const Contact = dynamic(() => import("./components/Contact"), {
   ssr: true,
 });
 
+const ServiceLinks = dynamic(() => import("./components/ServiceLinks"), {
+  loading: () => <SectionSkeleton />,
+  ssr: true,
+});
+
 const Footer = dynamic(() => import("./components/Footer"), {
   loading: () => <div className="h-40 bg-norya-ink animate-pulse" />,
   ssr: true,
@@ -113,6 +118,7 @@ export default function LandingPage({ locale }: LandingPageProps) {
         whatsappUrl={whatsappUrlBySource.solutions}
         items={content.solutions.items}
       />
+      <ServiceLinks locale={locale} />
       <Process title={content.process.title} steps={content.process.steps} />
       <Deliverables title={content.deliverables.title} items={content.deliverables.items} />
       <Benefits title={content.benefits.title} items={content.benefits.items} />

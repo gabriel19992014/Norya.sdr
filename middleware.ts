@@ -41,16 +41,6 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-// Limpar memória de requests antigos periodicamente
-setInterval(() => {
-  const now = Date.now();
-  for (const [ip, data] of requestCounts.entries()) {
-    if (now > data.resetTime) {
-      requestCounts.delete(ip);
-    }
-  }
-}, 60 * 1000);
-
 export function middleware(request: NextRequest) {
   // 1. Rate limiting
   const clientIp = getClientIp(request);
