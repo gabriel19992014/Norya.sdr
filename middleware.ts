@@ -1,17 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-/**
- * Middleware para segurança, CORS e rate limiting
- * Executado em edge runtime (muito rápido)
- */
-
-// Store simples para rate limiting (em produção usar Redis)
-const requestCounts = new Map<string, { count: number; resetTime: number }>();
-
-const RATE_LIMIT = {
-  window: 60 * 1000, // 1 minuto
-  maxRequests: 100, // 100 requisições por minuto por IP
-};
+import { checkRateLimit, cleanupExpiredEntries, RATE_LIMITS } from "@/app/lib/rateLimit";
 
 function getClientIp(request: NextRequest): string {
   const forwarded = request.headers.get("x-forwarded-for");
@@ -21,39 +9,18 @@ function getClientIp(request: NextRequest): string {
   return request.headers.get("x-real-ip") || "unknown";
 }
 
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const existing = requestCounts.get(ip);
-
-  if (!existing || now > existing.resetTime) {
-    requestCounts.set(ip, {
-      count: 1,
-      resetTime: now + RATE_LIMIT.window,
-    });
-    return false;
-  }
-
-  existing.count++;
-  if (existing.count > RATE_LIMIT.maxRequests) {
-    return true;
-  }
-
-  return false;
-}
-
 export function middleware(request: NextRequest) {
-  // 1. Rate limiting
+  cleanupExpiredEntries();
+
   const clientIp = getClientIp(request);
-  if (isRateLimited(clientIp)) {
+  const result = checkRateLimit(`mw:${clientIp}`, RATE_LIMITS.general);
+  if (!result.allowed) {
     return new NextResponse("Too Many Requests", {
       status: 429,
-      headers: {
-        "Retry-After": String(RATE_LIMIT.window / 1000),
-      },
+      headers: { "Retry-After": String(result.retryAfter || 60) },
     });
   }
 
-  // 2. Security headers
   const response = NextResponse.next();
 
   // HSTS (HTTPS only)

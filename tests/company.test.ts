@@ -1,16 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { COMPANY, COMPANY_LINKS, buildWhatsAppUrl } from "../app/lib/company";
+import { COMPANY, buildWhatsAppUrl } from "../app/lib/company";
 
 describe("company data", () => {
   it("mantem dados basicos obrigatorios", () => {
     expect(COMPANY.name).toBe("NORYA");
     expect(COMPANY.fullName).toContain("Partners");
     expect(COMPANY.siteUrl.startsWith("https://")).toBe(true);
-  });
-
-  it("monta links de contato coerentes", () => {
-    expect(COMPANY_LINKS.mailto).toBe(`mailto:${COMPANY.email}`);
-    expect(COMPANY_LINKS.tel).toBe(`tel:${COMPANY.phoneE164}`);
   });
 
   it("gera URL de WhatsApp com mensagem codificada", () => {

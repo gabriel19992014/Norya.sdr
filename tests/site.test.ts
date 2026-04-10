@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getNavItems, getSiteMetadata, getWhatsappLabel, getWhatsappUrls, isValidLocale } from "../app/site";
+import { getNavItems, getSiteMetadata, getWhatsappLabel, getWhatsappUrl, isValidLocale } from "../app/site";
 
 describe("isValidLocale", () => {
   it("valida apenas locales suportados", () => {
@@ -23,18 +23,16 @@ describe("getNavItems", () => {
   });
 });
 
-describe("getWhatsappUrls", () => {
-  it("gera urls iguais para as origens sem expor origem no texto", () => {
-    const urls = getWhatsappUrls("pt");
-    expect(urls.navbar).toContain("https://wa.me/");
-    expect(urls.navbar).toBe(urls.hero);
-    expect(urls.navbar).toBe(urls.floating);
-    expect(decodeURIComponent(urls.navbar)).not.toContain("Origem");
+describe("getWhatsappUrl", () => {
+  it("gera url valida com mensagem em portugues", () => {
+    const url = getWhatsappUrl("pt");
+    expect(url).toContain("https://wa.me/");
+    expect(decodeURIComponent(url)).toContain("Olá!");
   });
 
   it("gera mensagem em espanhol quando locale for es", () => {
-    const urls = getWhatsappUrls("es");
-    expect(decodeURIComponent(urls.navbar)).toContain("Hola!");
+    const url = getWhatsappUrl("es");
+    expect(decodeURIComponent(url)).toContain("¡Hola!");
   });
 });
 

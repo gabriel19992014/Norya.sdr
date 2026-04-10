@@ -8,11 +8,6 @@ export const COMPANY = {
   whatsappNumber: "5493417525939"
 } as const;
 
-export const COMPANY_LINKS = {
-  mailto: `mailto:${COMPANY.email}`,
-  tel: `tel:${COMPANY.phoneE164}`
-} as const;
-
 export function buildWhatsAppUrl(message: string) {
   return `https://wa.me/${COMPANY.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }

@@ -1,10 +1,5 @@
 "use client";
 
-import { ReactNode } from "react";
-
-/**
- * Skeleton loader para componentes lazy loaded
- */
 export function SectionSkeleton() {
   return (
     <div className="section-shell py-20 animate-pulse">
@@ -20,21 +15,6 @@ export function SectionSkeleton() {
           </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-/**
- * Suspense boundary com fallback skeleton
- */
-export function LazySectionWrapper({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  return (
-    <div>
-      {children}
     </div>
   );
 }

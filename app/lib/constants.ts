@@ -1,9 +1,4 @@
-/**
- * Rate limiting e validação
- */
 export const VALIDATION = {
-  RATE_LIMIT_WINDOW_MS: 10 * 60 * 1000,
-  RATE_LIMIT_MAX_REQUESTS: 5,
   NAME_MAX_LENGTH: 80,
   EMAIL_MAX_LENGTH: 160,
   MESSAGE_MAX_LENGTH: 2000,

@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf .next",
-    "dev": "next dev",
-    "dev:clean": "rm -rf .next && next dev",
+    "dev": "next dev --turbopack",
+    "dev:clean": "rm -rf .next && next dev --turbopack",
     "build": "next build",
     "build:clean": "rm -rf .next && next build",
     "start": "next start",

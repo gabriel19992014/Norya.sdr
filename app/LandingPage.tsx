@@ -10,52 +10,42 @@ import { SectionSkeleton } from "./components/Skeleton";
 // Lazy load components não-críticos
 const Challenges = dynamic(() => import("./components/Challenges"), {
   loading: () => <SectionSkeleton />,
-  ssr: true,
 });
 
 const Solutions = dynamic(() => import("./components/Solutions"), {
   loading: () => <SectionSkeleton />,
-  ssr: true,
 });
 
 const Process = dynamic(() => import("./components/Process"), {
   loading: () => <SectionSkeleton />,
-  ssr: true,
 });
 
 const Deliverables = dynamic(() => import("./components/Deliverables"), {
   loading: () => <SectionSkeleton />,
-  ssr: true,
 });
 
 const Benefits = dynamic(() => import("./components/Benefits"), {
   loading: () => <SectionSkeleton />,
-  ssr: true,
 });
 
 const About = dynamic(() => import("./components/About"), {
   loading: () => <SectionSkeleton />,
-  ssr: true,
 });
 
 const Methodology = dynamic(() => import("./components/Methodology"), {
   loading: () => <SectionSkeleton />,
-  ssr: true,
 });
 
 const Contact = dynamic(() => import("./components/Contact"), {
   loading: () => <SectionSkeleton />,
-  ssr: true,
 });
 
 const ServiceLinks = dynamic(() => import("./components/ServiceLinks"), {
   loading: () => <SectionSkeleton />,
-  ssr: true,
 });
 
 const Footer = dynamic(() => import("./components/Footer"), {
   loading: () => <div className="h-40 bg-norya-ink animate-pulse" />,
-  ssr: true,
 });
 
 import {
@@ -65,7 +55,7 @@ import {
   getServiceLdJson,
   getWebSiteLdJson,
   getWhatsappLabel,
-  getWhatsappUrls,
+  getWhatsappUrl,
   type Locale
 } from "./site";
 
@@ -75,7 +65,7 @@ type LandingPageProps = {
 
 export default function LandingPage({ locale }: LandingPageProps) {
   const content = contentByLocale[locale];
-  const whatsappUrlBySource = getWhatsappUrls(locale);
+  const whatsappUrl = getWhatsappUrl(locale);
   const whatsappLabel = getWhatsappLabel(locale);
   const navItems = getNavItems(locale);
 
@@ -95,7 +85,7 @@ export default function LandingPage({ locale }: LandingPageProps) {
         switchLabel={content.switchLabel}
         ctaLabel={content.navCta}
         whatsappLabel={whatsappLabel}
-        whatsappUrl={whatsappUrlBySource.navbar}
+        whatsappUrl={whatsappUrl}
         items={navItems}
       />
 
@@ -105,7 +95,7 @@ export default function LandingPage({ locale }: LandingPageProps) {
         cta={content.hero.cta}
         imageAlt={content.hero.imageAlt}
         whatsappLabel={whatsappLabel}
-        whatsappUrl={whatsappUrlBySource.hero}
+        whatsappUrl={whatsappUrl}
       />
       <Clients title={content.clients.title} subtitle={content.clients.subtitle} items={content.clients.items} />
       <Challenges title={content.challenges.title} challengeLabel={content.challenges.challengeLabel} items={content.challenges.items} />
@@ -115,7 +105,7 @@ export default function LandingPage({ locale }: LandingPageProps) {
         cta={content.solutions.cta}
         proofPoints={content.solutions.proofPoints}
         whatsappLabel={whatsappLabel}
-        whatsappUrl={whatsappUrlBySource.solutions}
+        whatsappUrl={whatsappUrl}
         items={content.solutions.items}
       />
       <ServiceLinks locale={locale} />
@@ -137,7 +127,7 @@ export default function LandingPage({ locale }: LandingPageProps) {
         title={content.contact.title}
         subtitle={content.contact.subtitle}
         locale={locale}
-        whatsappUrl={whatsappUrlBySource.contact}
+        whatsappUrl={whatsappUrl}
         trustPoints={content.contact.trustPoints}
         nameLabel={content.contact.nameLabel}
         emailLabel={content.contact.emailLabel}
@@ -147,8 +137,8 @@ export default function LandingPage({ locale }: LandingPageProps) {
         successMessage={content.contact.successMessage}
         errorMessage={content.contact.errorMessage}
       />
-      <Footer locale={locale} whatsappUrl={whatsappUrlBySource.footer} items={navItems} />
-      <WhatsAppFloat whatsappUrl={whatsappUrlBySource.floating} label={whatsappLabel} />
+      <Footer locale={locale} whatsappUrl={whatsappUrl} items={navItems} />
+      <WhatsAppFloat whatsappUrl={whatsappUrl} label={whatsappLabel} />
     </main>
   );
 }
